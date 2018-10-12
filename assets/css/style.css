@@ -89,6 +89,7 @@ body {
     float: left;
   }
   #attacker {
+      color: white;
       padding: 5px;
   }
   .target-enemy {

@@ -120,3 +120,54 @@ $(document).ready(function() {
           renderMessage("clearMessage");
         }
       });
+    }
+    //render defender
+    if (areaRender == '#defender') {
+      $(areaRender).empty();
+      for (var i = 0; i < combatants.length; i++) {
+        //add enemy to defender area
+        if (combatants[i].name == charObj) {
+          $('#defender').append("Your selected opponent")
+          renderOne(combatants[i], areaRender, 'defender');
+        }
+      }
+    }
+//re-render defender when attacked
+if (areaRender == 'playerDamage') {
+    $('#defender').empty();
+    $('#defender').append("Your selected opponent")
+    renderOne(charObj, '#defender', 'defender');
+    lightsaber.play();
+  }
+  //re-render player character when attacked
+  if (areaRender == 'enemyDamage') {
+    $('#selected-character').empty();
+    renderOne(charObj, '#selected-character', '');
+  }
+  //render defeated enemy
+  if (areaRender == 'enemyDefeated') {
+    $('#defender').empty();
+    var gameStateMessage = "You have defated " + charObj.name + ", you can choose to fight another enemy.";
+    renderMessage(gameStateMessage);
+    blaster.play();
+  }
+};
+  //this is to render all characters for user to choose their computer
+  renderCharacters(characters, '#characters-section');
+  $(document).on('click', '.character', function() {
+    name = $(this).data('name');
+    //if no player char has been selected
+    if (!currSelectedCharacter) {
+      currSelectedCharacter = characters[name];
+      for (var key in characters) {
+        if (key != name) {
+          combatants.push(characters[key]);
+        }
+      }
+      $("#characters-section").hide();
+      renderCharacters(currSelectedCharacter, '#selected-character');
+      //this is to render all characters for user to choose fight against
+      renderCharacters(combatants, '#available-to-attack-section');
+    }
+  });
+});
