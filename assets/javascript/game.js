@@ -2,11 +2,11 @@
 $(document).ready(function() {
 
     //audio clips
-    let audio = new Audio('assets/audio/Jab.mp3');
+    let audio = new Audio('assets/audio/Win.mp3');
     let punch = new Audio('assets/audio/Punch.mp3');
     let grunt = new Audio('assets/audio/Grunt.mp3');
     let gut = new Audio('assets/audio/Gut.mp3');
-    let whack = new Audio('assets/audio/Whack.mp3');
+    let whack = new Audio('assets/audio/Jab.mp3');
     let computer = new Audio('assets/audio/Computer.mp3');
     
     //Array of Playable Characters
@@ -206,7 +206,7 @@ $("#attack-button").on("click", function() {
           renderMessage("clearMessage");
           restartGame("You Won!!!!");
           gut.play();
-          // The following line will play the imperial march:
+          // The following line will play the winning song:
           setTimeout(function() {
           audio.play();
           }, 2000);

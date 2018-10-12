@@ -4,6 +4,7 @@
 body {
     background-color: #C2C3C7;
     font-family: 'Montserrat', sans-serif;
+    background-size: cover;
   }
   header {
     font-size: 50px;
