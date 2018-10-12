@@ -74,4 +74,49 @@ $(document).ready(function() {
       $(charDiv).addClass('target-enemy');
     }
   };
-});
+
+  // Create function to render game message to DOM
+  var renderMessage = function(message) {
+    var gameMesageSet = $("#gameMessage");
+    var newMessage = $("<div>").text(message);
+    gameMesageSet.append(newMessage);
+
+    if (message == 'clearMessage') {
+      gameMesageSet.text('');
+    }
+  };
+
+  var renderCharacters = function(charObj, areaRender) {
+    //render all characters
+    if (areaRender == '#characters-section') {
+      $(areaRender).empty();
+      for (var key in charObj) {
+        if (charObj.hasOwnProperty(key)) {
+          renderOne(charObj[key], areaRender, '');
+        }
+      }
+    }
+    //render player character
+    if (areaRender == '#selected-character') {
+      $('#selected-character').prepend("Your Character");       
+      renderOne(charObj, areaRender, '');
+      $('#attack-button').css('visibility', 'visible');
+    }
+    //render combatants
+    if (areaRender == '#available-to-attack-section') {
+        $('#available-to-attack-section').prepend("Choose Your Next Opponent");      
+      for (var i = 0; i < charObj.length; i++) {
+
+        renderOne(charObj[i], areaRender, 'enemy');
+      }
+      //render one enemy to defender area
+      $(document).on('click', '.enemy', function() {
+        //select an combatant to fight
+        name = ($(this).data('name'));
+        //if defernder area is empty
+        if ($('#defender').children().length === 0) {
+          renderCharacters(name, '#defender');
+          $(this).hide();
+          renderMessage("clearMessage");
+        }
+      });
