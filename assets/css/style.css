@@ -17,7 +17,7 @@ body {
   }
   #gameMessage {
     text-align: center;
-    font-size: 10px;
+    font-size: 18px;
   }
   #choose-enemy-button {
     visibility: hidden;
@@ -135,7 +135,7 @@ body {
     height: 150px;    
     }
     #gameMessage {
-    font-size: 12px;
+    font-size: 50px;
     }
   }
   

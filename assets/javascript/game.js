@@ -3,11 +3,11 @@ $(document).ready(function() {
 
     //audio clips
     let audio = new Audio('assets/audio/Jab.mp3');
-    let force = new Audio('assets/audio/Punch.mp3');
-    let blaster = new Audio('assets/audio/Grunt.mp3');
-    let jediKnow = new Audio('assets/audio/Gut.mp3');
-    let lightsaber = new Audio('assets/audio/Whack.mp3');
-    let rtwoo = new Audio('assets/audio/Computer.mp3');
+    let punch = new Audio('assets/audio/Punch.mp3');
+    let grunt = new Audio('assets/audio/Grunt.mp3');
+    let gut = new Audio('assets/audio/Gut.mp3');
+    let whack = new Audio('assets/audio/Whack.mp3');
+    let computer = new Audio('assets/audio/Computer.mp3');
     
     //Array of Playable Characters
     let characters = {
@@ -98,7 +98,7 @@ $(document).ready(function() {
     }
     //render player character
     if (areaRender == '#selected-character') {
-      $('#selected-character').prepend("Your Character");       
+      $('#selected-character').append("Your Character");       
       renderOne(charObj, areaRender, '');
       $('#attack-button').css('visibility', 'visible');
     }
@@ -137,7 +137,7 @@ if (areaRender == 'playerDamage') {
     $('#defender').empty();
     $('#defender').append("Your selected opponent")
     renderOne(charObj, '#defender', 'defender');
-    lightsaber.play();
+    whack.play();
   }
   //re-render player character when attacked
   if (areaRender == 'enemyDamage') {
@@ -149,7 +149,7 @@ if (areaRender == 'playerDamage') {
     $('#defender').empty();
     var gameStateMessage = "You have defated " + charObj.name + ", you can choose to fight another enemy.";
     renderMessage(gameStateMessage);
-    blaster.play();
+    grunt.play();
   }
 };
   //this is to render all characters for user to choose their computer
@@ -170,4 +170,86 @@ if (areaRender == 'playerDamage') {
       renderCharacters(combatants, '#available-to-attack-section');
     }
   });
+// Create functions to enable actions between objects.
+$("#attack-button").on("click", function() {
+    //if defernder area has enemy
+    if ($('#defender').children().length !== 0) {
+      //defender state change
+      var attackMessage = "You attacked " + currDefender.name + " for " + (currSelectedCharacter.attack * turnCounter) + " damage.";
+      renderMessage("clearMessage");
+      //combat
+      currDefender.health = currDefender.health - (currSelectedCharacter.attack * turnCounter);
+
+      //win condition
+      if (currDefender.health > 0) {
+        //enemy not dead keep playing
+        renderCharacters(currDefender, 'playerDamage');
+        //player state change
+        var counterAttackMessage = currDefender.name + " attacked you back for " + currDefender.enemyAttackBack + " damage.";
+        renderMessage(attackMessage);
+        renderMessage(counterAttackMessage);
+
+        currSelectedCharacter.health = currSelectedCharacter.health - currDefender.enemyAttackBack;
+        renderCharacters(currSelectedCharacter, 'enemyDamage');
+        if (currSelectedCharacter.health <= 0) {
+          renderMessage("clearMessage");
+          restartGame("You have been defeated...GAME OVER!!!");
+          punch.play();
+          $("#attack-button").unbind("click");
+        }
+      } else {
+        renderCharacters(currDefender, 'enemyDefeated');
+        killCount++;
+        if (killCount >= 3) {
+          renderMessage("clearMessage");
+          restartGame("You Won!!!!");
+          gut.play();
+          // The following line will play the imperial march:
+          setTimeout(function() {
+          audio.play();
+          }, 2000);
+
+        }
+      }
+      turnCounter++;
+    } else {
+      renderMessage("clearMessage");
+      renderMessage("You still need to select an enemy.");
+      computer.play();
+    }
+  });
+ // function getRandomInt (min, max) {
+  //   min = Math.ceil(min);
+  //   max = Math.floor(max);
+  //   return Math.floor(Math.random() * (max-min)) + min;
+  
+  // }
+  
+  // document.getElementById('song').onclick = function() {
+  //   //   audioElement.play();
+  // // function audiolay() {
+    
+  //   var audio_files = [
+  //     "assets/mp3/Terminate.mp3",
+  //     "assets/mp3/Street.mp3",
+      
+  
+  //   ];
+  
+  //   var random_file = audio_files[getRandomInt(0,audio_files.length)];
+  
+  //   var audio = new Audio(random_file);
+  
+  //   audio.play();
+//Restarts the game - renders a reset button
+var restartGame = function(inputEndGame) {
+    //When 'Restart' button is clicked, reload the page.
+    var restart = $('<button class="btn">Restart</button>').click(function() {
+      location.reload();
+    });
+    var gameState = $("<div>").text(inputEndGame);
+    $("#gameMessage").append(gameState);
+    $("#gameMessage").append(restart);
+  };
+
 });
