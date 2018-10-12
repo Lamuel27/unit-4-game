@@ -95,6 +95,8 @@ $(document).ready(function() {
           renderOne(charObj[key], areaRender, '');
         }
       }
+      var gameStateMessage = "Darkseid and turned us against each other! Choose your character!";
+          renderMessage(gameStateMessage);
     }
     //render player character
     if (areaRender == '#selected-character') {
