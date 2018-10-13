@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
     //audio clips
-    let audio = new Audio('assets/audio/Win.mp3');
+    let win = new Audio('assets/audio/Win.mp3');
     let punch = new Audio('assets/audio/Punch.mp3');
     let grunt = new Audio('assets/audio/Grunt.mp3');
     let gut = new Audio('assets/audio/Gut.mp3');
@@ -55,6 +55,7 @@ $(document).ready(function() {
     var attackResult;
     var turnCounter = 1;
     var killCount = 0;
+    var song = $("#themesong");
 
     var renderOne = function(character, renderArea, makeChar) {
     //character: obj, renderArea: class/id, makeChar: string
@@ -100,13 +101,16 @@ $(document).ready(function() {
     }
     //render player character
     if (areaRender == '#selected-character') {
-      $('#selected-character').append("Your Character");       
+    //   $('#selected-character').append("Your Character");
+    //   $('#selected-character').css('color', 'white');
+      $('#selected-character').css('vertical-align','middle');       
       renderOne(charObj, areaRender, '');
       $('#attack-button').css('visibility', 'visible');
     }
     //render combatants
     if (areaRender == '#available-to-attack-section') {
-        $('#available-to-attack-section').prepend("Choose Your Next Opponent");      
+        $('#available-to-attack-section').prepend("Choose Your Next Opponent");
+        $('#available-to-attack-section').css('color', 'white');      
       for (var i = 0; i < charObj.length; i++) {
 
         renderOne(charObj[i], areaRender, 'enemy');
@@ -129,21 +133,45 @@ $(document).ready(function() {
       for (var i = 0; i < combatants.length; i++) {
         //add enemy to defender area
         if (combatants[i].name == charObj) {
-          $('#defender').append("Your selected opponent")
+        //   $('#defender').append("Your selected opponent")
+        //   $('#defender').css('color', 'white');
           renderOne(combatants[i], areaRender, 'defender');
         }
       }
     }
+    function getRandomInt (min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max-min)) + min;
+      
+      }
+      
+    //play random sound effects
+        var audio_files = [
+          "assets/audio/Punch.mp3",
+          "assets/audio/Grunt.mp3",
+          "assets/audio/Gut.mp3",
+          "assets/audio/Jab.mp3",
+          
+      
+        ];
+      
+        var random_file = audio_files[getRandomInt(0,audio_files.length)];
+      
+        var audio = new Audio(random_file);
+      
+    
 //re-render defender when attacked
 if (areaRender == 'playerDamage') {
     $('#defender').empty();
-    $('#defender').append("Your selected opponent")
+    // $('#defender').append("Your selected opponent")
     renderOne(charObj, '#defender', 'defender');
-    whack.play();
+    audio.play();        
   }
   //re-render player character when attacked
   if (areaRender == 'enemyDamage') {
     $('#selected-character').empty();
+    // $('#selected-character').append("Your Character")
     renderOne(charObj, '#selected-character', '');
   }
   //render defeated enemy
@@ -196,7 +224,7 @@ $("#attack-button").on("click", function() {
         if (currSelectedCharacter.health <= 0) {
           renderMessage("clearMessage");
           restartGame("You have been defeated...GAME OVER!!!");
-          punch.play();
+        //   punch.play();
           $("#attack-button").unbind("click");
         }
       } else {
@@ -205,12 +233,11 @@ $("#attack-button").on("click", function() {
         if (killCount >= 3) {
           renderMessage("clearMessage");
           restartGame("You Won!!!!");
-          gut.play();
-          // The following line will play the winning song:
-          setTimeout(function() {
-          audio.play();
-          }, 2000);
 
+          // The following line will play the winning song:
+          setTimeout(function() {    
+          win.play();
+          }, 2000); 
         }
       }
       turnCounter++;
