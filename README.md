@@ -5,7 +5,7 @@ Justice League - Task Force
 About
 
 
-Darkseid has controlled everyone's mind and turned them against each other.  You have to choose your character and survive.
+Darkseid has controlled everyone's mind and turned the Justice League against each other.  You have to choose your character and survive.
 Select your character and then select your enemy.  When ready, press the "attack" button in the middle of the screen.  It will decribe what damage was given.
 When there are no opponents left, that means you have survived!
 
