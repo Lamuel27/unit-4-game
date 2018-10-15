@@ -75,7 +75,7 @@ body {
       visibility: hidden;
   }
   .btn {
-      background: #000;
+      background: darkblue;
       color: white;	
   }
   .enemy {
