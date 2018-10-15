@@ -177,7 +177,7 @@ if (areaRender == 'playerDamage') {
   //render defeated enemy
   if (areaRender == 'enemyDefeated') {
     $('#defender').empty();
-    var gameStateMessage = "You have defated " + charObj.name + ", you can choose to fight another enemy.";
+    var gameStateMessage = "You have defeated " + charObj.name + ", you can choose to fight another enemy.";
     renderMessage(gameStateMessage);
     grunt.play();
   }
