@@ -1,6 +1,8 @@
 # unit-4-game
 Justice League - Task Force
 
+Link to the deployed site:
+https://lamuel27.github.io/unit-4-game/
 
 About
 
